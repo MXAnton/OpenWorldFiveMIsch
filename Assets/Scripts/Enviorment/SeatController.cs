@@ -11,9 +11,9 @@ public class SeatController : MonoBehaviour
 
     public void SeatPlayer(GameObject player)
     {
+        player.GetComponent<ThirdPersonMovement>().enabled = false;
         player.GetComponent<CharacterController>().enabled = false;
         //thirdPersonMovement.GetComponent<Collider>().enabled = false;
-        player.GetComponent<ThirdPersonMovement>().enabled = false;
 
         player.transform.parent = transform;
         player.transform.position = transform.position;

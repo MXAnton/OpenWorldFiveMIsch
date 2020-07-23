@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class PlayerUse : MonoBehaviour
 {
+    ThirdPersonMovement thirdPersonMovement;
+
     public float useRaycastLength = 5;
     public LayerMask layerMask;
 
     public float usableCheckPosHeight = 8.5f;
     public float usableCheckRadius;
+
+    private void Start()
+    {
+        thirdPersonMovement = GetComponent<ThirdPersonMovement>();
+    }
 
     void Update()
     {
@@ -19,7 +26,7 @@ public class PlayerUse : MonoBehaviour
         //    GetComponent<CrosshairController>().SetCrosshair(hit.collider.gameObject);
         //}
 
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.F))
         {
             // Get hits
             Collider[] hitColliders = Physics.OverlapSphere(new Vector3(transform.localPosition.x, transform.localPosition.y + usableCheckPosHeight, transform.localPosition.z), usableCheckRadius, layerMask);
@@ -45,7 +52,8 @@ public class PlayerUse : MonoBehaviour
                 {
                     if (nearestHit.gameObject.GetComponent<CarSeat>().seatedObject == null && transform.parent == null)
                     {
-                        nearestHit.gameObject.GetComponent<CarSeat>().SeatPlayer(gameObject);
+                        //thirdPersonMovement.MoveTowardsTarget(nearestHit);
+                        thirdPersonMovement.target = nearestHit;
                     }
                     else
                     {
@@ -56,7 +64,8 @@ public class PlayerUse : MonoBehaviour
                 {
                     if (nearestHit.gameObject.GetComponent<SeatController>().seatedObject == null && transform.parent == null)
                     {
-                        nearestHit.gameObject.GetComponent<SeatController>().SeatPlayer(gameObject);
+                        //thirdPersonMovement.MoveTowardsTarget(nearestHit);
+                        thirdPersonMovement.target = nearestHit;
                     }
                     else
                     {

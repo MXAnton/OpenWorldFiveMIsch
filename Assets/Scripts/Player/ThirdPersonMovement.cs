@@ -33,6 +33,11 @@ public class ThirdPersonMovement : MonoBehaviour
     float jumpDelay;
     float vSpeed;
 
+    float horizontal;
+    float vertical;
+
+    public GameObject target;
+
     [Header("Turn Vars")]
     public float turnSmoothTime = 0.2f;
     float turnSmoothVelocity;
@@ -63,8 +68,18 @@ public class ThirdPersonMovement : MonoBehaviour
 
     void Move()
     {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        if (target != null)
+        {
+            MoveTowardsTarget();
+        }
+
+        if (target == null || target != null && Input.GetAxisRaw("Horizontal") != 0 || target != null && Input.GetAxisRaw("Vertical") != 0)
+        {
+            horizontal = Input.GetAxisRaw("Horizontal");
+            vertical = Input.GetAxisRaw("Vertical");
+
+            target = null;
+        }
         Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
 
         if (Input.GetKey(KeyCode.LeftShift))
@@ -99,10 +114,13 @@ public class ThirdPersonMovement : MonoBehaviour
 
         if (magnitude >= 0.1f)
         {
-            targetAngle = transform.eulerAngles.y;
-            if (direction.x > 0.1f || direction.x < -0.1f || direction.z > 0.1f || direction.z < -0.1f)
+            if (target == null)
             {
-                targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                targetAngle = transform.eulerAngles.y;
+                if (direction.x > 0.1f || direction.x < -0.1f || direction.z > 0.1f || direction.z < -0.1f)
+                {
+                    targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+                }
             }
 
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
@@ -178,5 +196,33 @@ public class ThirdPersonMovement : MonoBehaviour
         float to = toAbs + toMin;
 
         return to;
+    }
+
+
+    public void MoveTowardsTarget()
+    {
+        vertical = 1;
+
+        Vector3 targetDir = target.transform.position - transform.position;
+        float singleStep = 100 * Time.deltaTime;
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDir, singleStep, 0.0f);
+        targetAngle = Mathf.Atan2(newDirection.x, newDirection.z) * Mathf.Rad2Deg;
+
+        float distance = Vector3.Distance(new Vector3(transform.position.x, transform.position.y + 8.5f, transform.position.z), target.transform.position);
+        if (distance < 12)
+        {
+            vertical = 0;
+
+            if (target.GetComponent<CarSeat>())
+            {
+                target.gameObject.GetComponent<CarSeat>().SeatPlayer(gameObject);
+            }
+            else if (target.GetComponent<SeatController>())
+            {
+                target.gameObject.GetComponent<SeatController>().SeatPlayer(gameObject);
+            }
+
+            target = null;
+        }
     }
 }
