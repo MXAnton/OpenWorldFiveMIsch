@@ -29,14 +29,14 @@ public class PlayerUse : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             // Get hits
-            Collider[] hitColliders = Physics.OverlapSphere(new Vector3(transform.localPosition.x, transform.localPosition.y + usableCheckPosHeight, transform.localPosition.z), usableCheckRadius, layerMask);
+            Collider[] hitColliders = Physics.OverlapSphere(new Vector3(transform.position.x, transform.position.y + usableCheckPosHeight, transform.position.z), usableCheckRadius, layerMask);
             float nearestHitDistance = usableCheckRadius * 2;
             GameObject nearestHit = null;
             if (hitColliders.Length != 0)
             {
                 foreach (Collider hitCollider in hitColliders)
                 {
-                    float distance = Vector3.Distance(new Vector3(transform.localPosition.x, transform.localPosition.y + usableCheckPosHeight, transform.localPosition.z), hitCollider.transform.position);
+                    float distance = Vector3.Distance(new Vector3(transform.position.x, transform.position.y + usableCheckPosHeight, transform.position.z), hitCollider.transform.position);
                     if (distance <= nearestHitDistance)
                     {
                         nearestHit = hitCollider.gameObject;
@@ -73,34 +73,34 @@ public class PlayerUse : MonoBehaviour
                     }
                 }
             }
-            else
-            {
-                if (GetComponentInParent<CarSeat>() != null)
-                {
-                    if (GetComponentInParent<CarSeat>().seatedObject == gameObject)
-                    {
-                        GetComponentInParent<CarSeat>().SeatOutPlayer(gameObject);
-                    }
-                }
-                else if (GetComponentInParent<SeatController>() != null)
-                {
-                    if (GetComponentInParent<SeatController>().seatedObject == gameObject)
-                    {
-                        GetComponentInParent<SeatController>().SeatOutPlayer(gameObject);
-                    }
-                }
-                //else
-                //{
-                //    if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, useRaycastLength))
-                //    {
-                //        Debug.Log(hit.collider.name);
-                //    }
-                //    else
-                //    {
-                //        Debug.Log("No hit");
-                //    }
-                //}
-            }
+            //else
+            //{
+            //    if (GetComponentInParent<CarSeat>() != null)
+            //    {
+            //        if (GetComponentInParent<CarSeat>().seatedObject == gameObject)
+            //        {
+            //            GetComponentInParent<CarSeat>().SeatOutPlayer(gameObject);
+            //        }
+            //    }
+            //    else if (GetComponentInParent<SeatController>() != null)
+            //    {
+            //        if (GetComponentInParent<SeatController>().seatedObject == gameObject)
+            //        {
+            //            GetComponentInParent<SeatController>().SeatOutPlayer(gameObject);
+            //        }
+            //    }
+            //    //else
+            //    //{
+            //    //    if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, useRaycastLength))
+            //    //    {
+            //    //        Debug.Log(hit.collider.name);
+            //    //    }
+            //    //    else
+            //    //    {
+            //    //        Debug.Log("No hit");
+            //    //    }
+            //    //}
+            //}
         }
     }
 }

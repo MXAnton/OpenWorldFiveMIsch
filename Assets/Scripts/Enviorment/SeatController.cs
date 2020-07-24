@@ -6,11 +6,15 @@ public class SeatController : MonoBehaviour
 {
     public GameObject seatedObject;
     public Vector3 outFromSeatPos;
+    public float seatableDistance;
 
     public AnimationClip playerAnimationClip;
 
     public void SeatPlayer(GameObject player)
     {
+        player.GetComponentInChildren<PlayerAnimationController>().PlayCustomAnimation(playerAnimationClip);
+
+        player.GetComponent<ThirdPersonMovement>().magnitude = 0;
         player.GetComponent<ThirdPersonMovement>().enabled = false;
         player.GetComponent<CharacterController>().enabled = false;
         //thirdPersonMovement.GetComponent<Collider>().enabled = false;
@@ -20,20 +24,19 @@ public class SeatController : MonoBehaviour
         player.transform.localEulerAngles = transform.localEulerAngles;
 
         seatedObject = player.gameObject;
-
-        player.GetComponentInChildren<PlayerAnimationController>().PlayCustomAnimation(playerAnimationClip);
     }
 
     public void SeatOutPlayer(GameObject player)
     {
-        player.transform.localPosition = outFromSeatPos;
+        player.GetComponentInChildren<PlayerAnimationController>().animator.SetBool("PlayCustomAnimation", false);
+
+        player.transform.localPosition = outFromSeatPos; //new Vector3(player.transform.localPosition.x, player.transform.localPosition.y, player.transform.localPosition.z + outFromSeatPos.z);
         seatedObject = null;
         player.transform.parent = null;
 
         //GetComponent<Collider>().enabled = true;
         player.GetComponent<CharacterController>().enabled = true;
         player.GetComponent<ThirdPersonMovement>().enabled = true;
-
-        player.GetComponentInChildren<PlayerAnimationController>().animator.SetBool("PlayCustomAnimation", false);
+        player.GetComponent<ThirdPersonMovement>().magnitude = 0;
     }
 }

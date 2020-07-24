@@ -19,7 +19,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [Header("Horizontal Movement")]
     public float speed = 20;
-    float magnitude;
+    public float magnitude;
     public float runMovementSpeedMultiplier = 2;
     public float crouchMovementSpeedMultiplier = 0.75f;
     float movemenSpeedtMultiplier;
@@ -130,7 +130,10 @@ public class ThirdPersonMovement : MonoBehaviour
             }
 
             Vector3 moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
-            controller.Move(moveDirection.normalized * speed * movemenSpeedtMultiplier * Time.deltaTime);
+            if (controller.enabled == true)
+            {
+                controller.Move(moveDirection.normalized * speed * movemenSpeedtMultiplier * Time.deltaTime);
+            }
         }
 
         float currentMovementSpeed = Map(magnitude, 0f, 2f, 0f, 1f);
@@ -162,8 +165,11 @@ public class ThirdPersonMovement : MonoBehaviour
         }
 
         Vector3 vel = new Vector3(0, vSpeed, 0); // include vertical speed in vel
-                                                 // convert vel to displacement and Move the character:
-        controller.Move(vel * Time.deltaTime);
+                                                 // convert vel to displacement and Move the character
+        if (controller.enabled == true)
+        {
+            controller.Move(vel * Time.deltaTime);
+        }
 
         jumpDelay -= Time.deltaTime;
     }
@@ -209,20 +215,27 @@ public class ThirdPersonMovement : MonoBehaviour
         targetAngle = Mathf.Atan2(newDirection.x, newDirection.z) * Mathf.Rad2Deg;
 
         float distance = Vector3.Distance(new Vector3(transform.position.x, transform.position.y + 8.5f, transform.position.z), target.transform.position);
-        if (distance < 12)
+        if (target.GetComponent<CarSeat>())
         {
-            vertical = 0;
-
-            if (target.GetComponent<CarSeat>())
+            if (distance < target.GetComponent<CarSeat>().seatableDistance)
             {
+                vertical = 0;
+
                 target.gameObject.GetComponent<CarSeat>().SeatPlayer(gameObject);
-            }
-            else if (target.GetComponent<SeatController>())
-            {
-                target.gameObject.GetComponent<SeatController>().SeatPlayer(gameObject);
-            }
 
-            target = null;
+                target = null;
+            }
+        }
+        else if (target.GetComponent<SeatController>())
+        {
+            if (distance < target.GetComponent<SeatController>().seatableDistance)
+            {
+                vertical = 0;
+
+                target.gameObject.GetComponent<SeatController>().SeatPlayer(gameObject);
+
+                target = null;
+            }
         }
     }
 }
