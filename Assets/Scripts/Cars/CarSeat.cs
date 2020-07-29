@@ -20,11 +20,11 @@ public class CarSeat : MonoBehaviour
         {
             if (seatedObject == null)
             {
-                carController.enabled = false;
+                carController.driven = false;
             }
             else
             {
-                carController.enabled = true;
+                carController.driven = true;
             }
         }
     }
