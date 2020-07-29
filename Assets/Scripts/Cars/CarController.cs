@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using TMPro;
 
 [Serializable]
 public struct Wheel
@@ -24,32 +23,22 @@ public class CarController : MonoBehaviour
 
     [Header("Motor Vars")]
     public float maxMotorTorque;                        // Maximum torque the motor can apply to wheels
-    public float maxSteeringAngle = 40;                 // Maximum steering angle the wheels can have    
+    public float maxSteeringAngle = 20;                 // Maximum steering angle the wheels can have    
     public float maxSpeed;                              // Car maximum speed
     public float brakePower;                            // Maximum brake power
-    public float handBrakePower;
-    public float motorBrakePower;
     public CarType carType = CarType.FourWheelDrive;    // Set car type here
 
     float carSpeed;                                     // The car speed in meter per second 
-    public float carSpeedKmh;                            // The car speed in kilometer per hour
-    public float motorTorque;                                  // Current Motor torque
+    float carSpeedKmh;                            // The car speed in kilometer per hour
+    float motorTorque;                                  // Current Motor torque
     float tireAngle;                                    // Current steer angle
 
-    public float vertical = 0;                                 // The vertical input
-    public float horizontal = 0;                               // The horizontal input   
+    float vertical = 0;                                 // The vertical input
+    float horizontal = 0;                               // The horizontal input   
     bool hBrake = false;                                // If handbrake button(Spacebar) pressed it becomes true
 
     public Transform CenterOfMass;                      // Center of mass of the car
     Rigidbody carRigidbody;                             // Rigidbody of the car
-
-    public bool driven = false;
-
-    [Header("UI")]
-    public TMP_Text speedText;
-    public TMP_Text gearText;
-
-    public int currentGear;
 
     void Start()
     {
@@ -59,32 +48,21 @@ public class CarController : MonoBehaviour
 
     void Update()
     {
-        speedText.text = "" + carSpeedKmh;
-        gearText.text = "" + currentGear;
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
 
-        // Calculate the car speed in meter/second                 
-            //carSpeed = carRigidbody.velocity.magnitude;
-        Vector3 localVelocity = transform.InverseTransformDirection(carRigidbody.velocity);
-        carSpeed = localVelocity.z;
-        carSpeedKmh = Mathf.Round(carSpeed * 3.6f);             // Convert the car speed from meter/second to kilometer/hour
-                                                                      // carSpeedRounded = Mathf.Round(carSpeed * 2.237f);         // Use this formula for mile/hour
-        if (driven)
+        tireAngle = maxSteeringAngle * horizontal;                  // Calculate the front tires angles
+        foreach (Wheel wheel in wheels)
         {
-            horizontal = Input.GetAxis("Horizontal");
-            vertical = Input.GetAxisRaw("Vertical");
-
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (wheel.model.transform.localPosition.z > 0)
             {
-                hBrake = !hBrake;
+                wheel.collider.steerAngle = tireAngle;           // Set front wheel colliders steer angles
             }
         }
-        else
-        {
-            horizontal = 0;
-            vertical = 0;
-        }
 
-        Steer();
+        carSpeed = carRigidbody.velocity.magnitude;                 // Calculate the car speed in meter/second                 
+        carSpeedKmh = Mathf.Round(carSpeed * 3.6f);             // Convert the car speed from meter/second to kilometer/hour
+                                                                      // carSpeedRounded = Mathf.Round(carSpeed * 2.237f);         // Use this formula for mile/hour
         HandBrake();
 
         // Set the motorTorques based on the carType
@@ -137,6 +115,14 @@ public class CarController : MonoBehaviour
 
     void HandBrake()
     {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            hBrake = true;
+        }
+        else
+        {
+            hBrake = false;
+        }
         if (hBrake)
         {
             motorTorque = 0;
@@ -145,7 +131,7 @@ public class CarController : MonoBehaviour
             {
                 if (wheel.model.transform.localPosition.z < 0)
                 {
-                    wheel.collider.brakeTorque = handBrakePower;
+                    wheel.collider.brakeTorque = brakePower;
                 }
             }
         }
@@ -153,40 +139,17 @@ public class CarController : MonoBehaviour
         {
             foreach (Wheel wheel in wheels)
             {
-                if (vertical == 0)
-                {
-                    wheel.collider.brakeTorque = motorBrakePower;
-                }
-                else if (vertical < 0 && carSpeedKmh > 5 || vertical > 0 && carSpeedKmh < -5)
-                {
-                    wheel.collider.brakeTorque = brakePower;
-                }
-                else
-                {
-                    wheel.collider.brakeTorque = 0;
-                }
+                wheel.collider.brakeTorque = 0;
             }
 
             // Check if car speed has exceeded from maxSpeed
-            if (carSpeedKmh > -maxSpeed && carSpeedKmh < maxSpeed)
+            if (carSpeedKmh < maxSpeed)
             {
                 motorTorque = maxMotorTorque * vertical;
             }
             else
             {
                 motorTorque = 0;
-            }
-        }
-    }
-
-    void Steer()
-    {
-        tireAngle = maxSteeringAngle * horizontal;                  // Calculate the front tires angles
-        foreach (Wheel wheel in wheels)
-        {
-            if (wheel.model.transform.localPosition.z > 0)
-            {
-                wheel.collider.steerAngle = tireAngle;           // Set front wheel colliders steer angles
             }
         }
     }

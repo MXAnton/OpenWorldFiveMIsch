@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3964834802401999839}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.314, z: 0}
+  m_LocalPosition: {x: 0, y: 3.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3964834803530908563}
@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.25, y: 0.7, z: 0.25}
-  m_Center: {x: 0, y: 0.083, z: 0}
+  m_Size: {x: 2.5, y: 7, z: 2.5}
+  m_Center: {x: 0, y: 0.83, z: 0}
 --- !u!114 &3964834802401999833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,8 +58,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seatedObject: {fileID: 0}
-  outFromSeatPos: {x: 0, y: 0, z: 0.4}
-  seatableDistance: 0.7
+  outFromSeatPos: {x: 0, y: 0, z: 4}
+  seatableDistance: 7
   playerAnimationClip: {fileID: 7400000, guid: 599419a5173aa2f4387b316cb7c7a5ba, type: 2}
 --- !u!1 &3964834803531341747
 GameObject:
@@ -86,7 +86,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3964834803531341747}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.0000000218557, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 68.012695, y: 0.0042408337, z: 23.88861}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

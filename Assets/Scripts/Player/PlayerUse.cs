@@ -19,7 +19,7 @@ public class PlayerUse : MonoBehaviour
 
     void Update()
     {
-        //RaycastHit hit;
+        RaycastHit hit;
         //Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, useRaycastLength);
         //if (hit.collider != null)
         //{

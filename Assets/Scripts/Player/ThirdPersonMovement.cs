@@ -214,7 +214,7 @@ public class ThirdPersonMovement : MonoBehaviour
         Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDir, singleStep, 0.0f);
         targetAngle = Mathf.Atan2(newDirection.x, newDirection.z) * Mathf.Rad2Deg;
 
-        float distance = Vector3.Distance(new Vector3(transform.position.x, transform.position.y + 0.85f, transform.position.z), target.transform.position);
+        float distance = Vector3.Distance(new Vector3(transform.position.x, transform.position.y + 8.5f, transform.position.z), target.transform.position);
         if (target.GetComponent<CarSeat>())
         {
             if (distance < target.GetComponent<CarSeat>().seatableDistance)
