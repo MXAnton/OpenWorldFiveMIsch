@@ -386,6 +386,7 @@ MonoBehaviour:
   magnitude: 0
   runMovementSpeedMultiplier: 2
   crouchMovementSpeedMultiplier: 0.75
+  movemenSpeedtMultiplier: 0
   movementSmoother: 2
   isCrouching: 0
   jumpSpeed: 13
@@ -405,12 +406,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fcac902eebe03f48bf2eb70c72658e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useRaycastLength: 7
   layerMask:
     serializedVersion: 2
     m_Bits: 512
   usableCheckPosHeight: 0.85
-  usableCheckRadius: 3
+  usableCheckRadius: 4
 --- !u!114 &84221235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -946,7 +946,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4184121508086051100}
-  m_LocalRotation: {x: 0.8552021, y: -0.0889586, z: 0.052165683, w: 0.5079317}
+  m_LocalRotation: {x: 0.8552021, y: -0.088958584, z: 0.05216566, w: 0.5079317}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1020,7 +1020,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4184121508141898364}
-  m_LocalRotation: {x: 0.11083977, y: -0.8707705, z: 0.47510576, w: 0.061219458}
+  m_LocalRotation: {x: 0.110839754, y: -0.8707705, z: 0.47510576, w: 0.061219428}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1127,7 +1127,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4184121508202173926}
-  m_LocalRotation: {x: -0.0005655923, y: 0.88125855, z: -0.47263297, w: -0.001054588}
+  m_LocalRotation: {x: -0.00056557346, y: 0.8812586, z: -0.47263294, w: -0.0010545528}
   m_LocalPosition: {x: 0.0077934265, y: 6.3523774, z: 3.2562625}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []

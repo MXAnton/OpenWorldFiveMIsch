@@ -72,7 +72,7 @@ LightmapSettings:
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
-    m_BakeBackend: 1
+    m_BakeBackend: 2
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
@@ -61428,32 +61428,27 @@ PrefabInstance:
     - target: {fileID: 4184121508086051098, guid: 46352df5e0b21724c8f17e21b7561599,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.088958584
+      value: -0.0889586
       objectReference: {fileID: 0}
     - target: {fileID: 4184121508086051098, guid: 46352df5e0b21724c8f17e21b7561599,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.052165657
+      value: 0.052165687
       objectReference: {fileID: 0}
     - target: {fileID: 4184121508141898362, guid: 46352df5e0b21724c8f17e21b7561599,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.110839754
+      value: 0.11083977
       objectReference: {fileID: 0}
     - target: {fileID: 4184121508141898362, guid: 46352df5e0b21724c8f17e21b7561599,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.061219428
+      value: 0.061219458
       objectReference: {fileID: 0}
     - target: {fileID: 4184121508202173923, guid: 46352df5e0b21724c8f17e21b7561599,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0005655896
-      objectReference: {fileID: 0}
-    - target: {fileID: 4184121508202173923, guid: 46352df5e0b21724c8f17e21b7561599,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.0010545829
+      value: -0.0005656085
       objectReference: {fileID: 0}
     - target: {fileID: 4184121508202173923, guid: 46352df5e0b21724c8f17e21b7561599,
         type: 3}
@@ -61464,6 +61459,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.47263297
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184121508202173923, guid: 46352df5e0b21724c8f17e21b7561599,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.0010546182
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46352df5e0b21724c8f17e21b7561599, type: 3}

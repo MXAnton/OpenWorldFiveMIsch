@@ -22,7 +22,7 @@ public class ThirdPersonMovement : MonoBehaviour
     public float magnitude;
     public float runMovementSpeedMultiplier = 2;
     public float crouchMovementSpeedMultiplier = 0.75f;
-    float movemenSpeedtMultiplier;
+    public float movemenSpeedtMultiplier;
     public float movementSmoother = 2;
 
     public bool isCrouching = false;
@@ -82,7 +82,7 @@ public class ThirdPersonMovement : MonoBehaviour
         }
         Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) || target != null)
         {
             movemenSpeedtMultiplier = runMovementSpeedMultiplier;
         }

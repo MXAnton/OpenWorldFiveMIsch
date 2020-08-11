@@ -6,7 +6,7 @@ public class PlayerUse : MonoBehaviour
 {
     ThirdPersonMovement thirdPersonMovement;
 
-    public float useRaycastLength = 5;
+    //public float useRaycastLength = 5;
     public LayerMask layerMask;
 
     public float usableCheckPosHeight = 8.5f;
