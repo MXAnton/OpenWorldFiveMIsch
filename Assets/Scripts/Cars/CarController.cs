@@ -30,7 +30,7 @@ public class CarController : MonoBehaviour
     }
 
 
-    Rigidbody carRigidbody;                             // Rigidbody of the car
+    public Rigidbody carRigidbody;                             // Rigidbody of the car
     public Transform CenterOfMass;                      // Center of mass of the car
 
     AudioSource audio;
@@ -91,6 +91,13 @@ public class CarController : MonoBehaviour
 
     public AudioClip startSound;
     public AudioClip onSound;
+
+    [Header("Exhaust Smoke Vars")]
+    public ParticleSystem exhaustSmokeParticleSystem;
+    public float exhaustRate;
+
+    [Header("Wheel Smokea Vars")]
+    public float wheelSmokeRate;
 
     [Header("UI")]
     public TMP_Text speedText;
@@ -180,13 +187,19 @@ public class CarController : MonoBehaviour
         {
             if (engineOn)
             {
-                brakeInput = Input.GetAxis("Brake");
                 throttleInput = Input.GetAxis("Throttle");
                 if (throttleInput < 0)
                 {
                     throttleInput = 0;
                 }
             }
+
+            float newBrakeInput = Input.GetAxis("Brake");
+            if (Input.GetKey(KeyCode.JoystickButton4))
+            {
+                newBrakeInput = 1;
+            }
+            brakeInput = newBrakeInput;
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -196,20 +209,23 @@ public class CarController : MonoBehaviour
             horizontalInput = Input.GetAxis("Horizontal");
 
 
-            if (Input.GetKeyDown(KeyCode.I) && engineOn == false && isStarting == false)
+            if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.JoystickButton7))
             {
-                audio.Play();
-                isStarting = true;
+                if (engineOn == false && isStarting == false)
+                {
+                    audio.Play();
+                    isStarting = true;
 
-                currentGear = 1;
-                GearDown();
-            }
-            else if (Input.GetKeyDown(KeyCode.I) && engineOn == true || Input.GetKeyDown(KeyCode.I) && isStarting == true)
-            {
-                audio.Stop();
-                audio.loop = false;
-                isStarting = false;
-                engineOn = false;
+                    currentGear = 1;
+                    GearDown();
+                }
+                else
+                {
+                    audio.Stop();
+                    audio.loop = false;
+                    isStarting = false;
+                    engineOn = false;
+                }
             }
             if (isStarting == true && audio.isPlaying == false)
             {
@@ -223,7 +239,7 @@ public class CarController : MonoBehaviour
             }
 
 
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.JoystickButton5))
             {
                 clutched = true;
             }
@@ -233,13 +249,19 @@ public class CarController : MonoBehaviour
             }
 
 
-            if (Input.GetKeyDown(KeyCode.G) && currentGear < gears.Length)
+            if (Input.GetKeyDown(KeyCode.G) || Input.GetKeyDown(KeyCode.JoystickButton1))
             {
-                GearUp();
+                if (currentGear < gears.Length)
+                {
+                    GearUp();
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.B) && currentGear > -1)
+            else if (Input.GetKeyDown(KeyCode.B) || Input.GetKeyDown(KeyCode.JoystickButton0))
             {
-                GearDown();
+                if (currentGear > -1)
+                {
+                    GearDown();
+                }
             }
         }
         else
@@ -255,6 +277,7 @@ public class CarController : MonoBehaviour
 
 
         EngineSound();
+        ExhaustSmoke();
 
 
         ApplyBrakeTorqueAndSetMotorTorque();
@@ -640,6 +663,21 @@ public class CarController : MonoBehaviour
             audio.clip = startSound;
             audio.pitch = 1;
         }
+    }
+
+    void ExhaustSmoke()
+    {
+        exhaustSmokeParticleSystem.emissionRate = rpm * exhaustRate;
+
+
+        float newStartAlpha = -0.2f;
+        newStartAlpha += rpm / maxRPM;
+        if (newStartAlpha < 0.2f)
+        {
+            newStartAlpha = 0.2f;
+        }
+
+        exhaustSmokeParticleSystem.startColor = new Color(130, 130, 130, newStartAlpha);
     }
 
 

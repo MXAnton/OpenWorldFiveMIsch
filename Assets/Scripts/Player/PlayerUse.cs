@@ -26,7 +26,7 @@ public class PlayerUse : MonoBehaviour
         //    GetComponent<CrosshairController>().SetCrosshair(hit.collider.gameObject);
         //}
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.JoystickButton3))
         {
             // Get hits
             Collider[] hitColliders = Physics.OverlapSphere(new Vector3(transform.position.x, transform.position.y + usableCheckPosHeight, transform.position.z), usableCheckRadius, layerMask);

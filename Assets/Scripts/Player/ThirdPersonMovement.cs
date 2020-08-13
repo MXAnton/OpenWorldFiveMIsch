@@ -58,7 +58,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.JoystickButton10))
         {
             isCrouching = !isCrouching;
             animator.SetBool("IsCrouching", isCrouching);
@@ -82,7 +82,7 @@ public class ThirdPersonMovement : MonoBehaviour
         }
         Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
 
-        if (Input.GetKey(KeyCode.LeftShift) || target != null)
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetAxisRaw("Throttle") > 0.1f || target != null)
         {
             movemenSpeedtMultiplier = runMovementSpeedMultiplier;
         }
